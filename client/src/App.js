@@ -1,5 +1,9 @@
+// import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+
+//components
+import LendingHistory from "./components/LendingHistory";
 
 function App() {
   return (
@@ -17,6 +21,7 @@ function App() {
         >
           Learn React
         </a>
+        <LendingHistory />
       </header>
     </div>
   );
