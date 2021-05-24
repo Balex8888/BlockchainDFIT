@@ -6,10 +6,10 @@ import config from "./config";
 import HistoricalGraph from "./HistoricalGraph";
 
 const LendingHistory = (props) => {
-  var [data, setData] = useState("Loading Data...");
-  var [timestamps, setTimestamps] = useState();
-  var [oneTimestamp, setOneTimestamp] = useState();
-  var [lendRates, setLendRates] = useState();
+  const [data, setData] = useState("Loading Data...");
+  const [timestamps, setTimestamps] = useState();
+  const [oneTimestamp, setOneTimestamp] = useState();
+  const [lendRates, setLendRates] = useState();
 
   useEffect(() => {
     const apiUrl = "https://api.github.com/users/hacktivist123/repos";
@@ -39,7 +39,7 @@ const LendingHistory = (props) => {
     // setTimestamps(JSON.stringify(seedData[0]));
     // setLendRates(JSON.stringify(seedData[0]["lend_rates"]));
     // setOneTimestamp(JSON.stringify(seedData[0]["timestamp"]));
-  });
+  }, [data]);
 
   return (
     <div>
