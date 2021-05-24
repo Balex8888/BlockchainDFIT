@@ -4863,6 +4863,11 @@
   "resolved" "https://registry.npmjs.org/hex-color-regex/-/hex-color-regex-1.1.0.tgz"
   "version" "1.1.0"
 
+"highcharts-boost@^0.1.7":
+  "integrity" "sha1-Y/6T68L47RHJ3SR3iP/U5SinkQk="
+  "resolved" "https://registry.npmjs.org/highcharts-boost/-/highcharts-boost-0.1.7.tgz"
+  "version" "0.1.7"
+
 "highcharts-react-official@^3.0.0":
   "integrity" "sha512-VefJgDY2hkT9gfppsQGrRF2g5u8d9dtfHGcx2/xqiP+PkZXCqalw9xOeKVCRvJKTOh0coiDFwvVjOvB7KaGl4A=="
   "resolved" "https://registry.npmjs.org/highcharts-react-official/-/highcharts-react-official-3.0.0.tgz"

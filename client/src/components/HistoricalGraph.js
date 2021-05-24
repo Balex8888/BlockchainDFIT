@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 // import Highcharts from "highcharts";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
+import boost from "highcharts-boost";
 import seedTuples from "../data/seedDataTuples";
 import seedTuples2 from "../data/seedDataTuples2";
 window.Highcharts = Highcharts;
+boost(Highcharts);
 
 const HistoricalGraph = (props) => {
   // const [timestamps, setTimestamps] = useState();
@@ -107,67 +109,72 @@ const HistoricalGraph = (props) => {
   // );
   // const [yCompound, setYcompound] = useState();
 
-  const chartOptions2 = {
-    title: {
-      text: "Historic DeFi Interest Rates"
-    },
-    xAxis: {
-      title: {
-        text: "Date"
-      },
-      type: "datetime",
-      dateTimeLabelFormats: {
-        // don't display the dummy year
-        // month: "%e. %b",
-        // year: "%b"
-        // millisecond: "%H:%M:%S.%L",
-        // second: "%H:%M:%S",
-        // minute: "%H:%M",
-        // hour: "%H:%M",
-        // day: "%e. %b",
-        // week: "%e. %b",
-        month: "%b '%y",
-        year: "%Y"
-      }
-      // labels: {
-      //   formatter: function() {
-      //     return Highcharts.dateFormat("%H:%M %d %b %y", this.value);
-      //   }
-      // }
-    },
-    yAxis: {
-      title: {
-        text: "Exchange rate"
-      }
-    },
-    legend: {
-      enabled: false
-    },
-    series: [
-      {
-        name: "Compound Finance",
-        // data: seedTuples
-        // data: [1, 2, 3, 4, 5, 6, 7]
-        data: tuples["compound"]
-      },
-      {
-        name: "Maker",
-        // data: [4, 2, 2, 1, 3, 6, 9]
-        // data: seedTuples2
-        data: tuples["maker"]
-      },
-      {
-        name: "Aave",
-        data: tuples["aave"]
-      },
-      {
-        name: "dydx",
-        data: tuples["dydx"]
-      }
-    ]
-  };
+  // const baseChartOptions = {
+  //   title: {
+  //     text: "Historic DeFi Interest Rates"
+  //   },
+  //   xAxis: {
+  //     title: {
+  //       text: "Date"
+  //     },
+  //     type: "datetime",
+  //     dateTimeLabelFormats: {
+  //       // don't display the dummy year
+  //       // month: "%e. %b",
+  //       // year: "%b"
+  //       // millisecond: "%H:%M:%S.%L",
+  //       // second: "%H:%M:%S",
+  //       // minute: "%H:%M",
+  //       // hour: "%H:%M",
+  //       // day: "%e. %b",
+  //       // week: "%e. %b",
+  //       month: "%b '%y",
+  //       year: "%Y"
+  //     }
+  //     // labels: {
+  //     //   formatter: function() {
+  //     //     return Highcharts.dateFormat("%H:%M %d %b %y", this.value);
+  //     //   }
+  //     // }
+  //   },
+  //   yAxis: {
+  //     title: {
+  //       text: "Exchange rate"
+  //     }
+  //   },
+  //   legend: {
+  //     enabled: false
+  //   },
+  //   series: [
+  //     {
+  //       name: "Compound Finance",
+  //       // data: seedTuples
+  //       // data: [1, 2, 3, 4, 5, 6, 7]
+  //       data: tuples["compound"]
+  //     },
+  //     {
+  //       name: "Maker",
+  //       // data: [4, 2, 2, 1, 3, 6, 9]
+  //       // data: seedTuples2
+  //       data: tuples["maker"]
+  //     },
+  //     {
+  //       name: "Aave",
+  //       data: tuples["aave"]
+  //     },
+  //     {
+  //       name: "dydx",
+  //       data: tuples["dydx"]
+  //     }
+  //   ]
+  // };
 
   const chartOptions = {
+    chart: {
+      height: 500,
+      width: 1200,
+      type: "line"
+    },
     title: {
       text: "Historic DeFi Interest Rates"
     },
@@ -192,24 +199,31 @@ const HistoricalGraph = (props) => {
     },
     yAxis: {
       title: {
-        text: "Exchange rate"
+        text: "Interest Rates (%)"
+        // max: 10
       }
     },
+    boost: {
+      useGPUTranslations: true,
+      // Chart-level boost when there are more than 1 series in the chart
+      seriesThreshold: 1
+    },
     legend: {
-      enabled: false
+      enabled: true
     },
     series: [
       {
         name: "Compound Finance",
-        // data: seedTuples
-        // data: [1, 2, 3, 4, 5, 6, 7]
         data: tuples["compound"]
+        // data: seedTuples
+        // boostThreshold: 1 // Boost when there are more than 1
+        // point in the series.
       },
       {
         name: "Maker",
+        data: tuples["maker"]
         // data: [4, 2, 2, 1, 3, 6, 9]
         // data: seedTuples2
-        data: tuples["maker"]
       },
       {
         name: "Aave",
@@ -257,7 +271,7 @@ const HistoricalGraph = (props) => {
       <p>One Y Value: {JSON.stringify(yValues[0])}</p>
       {/* <p>One Y Value: {JSON.stringify(yValues[0]["maker"])}</p> */}
       {/* <p>One Y Value: {yValues}</p> */}
-      <p>Tuple Value: {JSON.stringify(tuples)}</p>
+      {/* <p>Tuple Value: {JSON.stringify(tuples)}</p> */}
       {/* <p>Tuple Value: {tuples}</p> */}
       {/* <p>Tuple Value: {JSON.stringify(tuples["maker"])}</p> */}
       <p>--- End of Graph --- </p>
