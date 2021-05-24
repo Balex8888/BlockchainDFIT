@@ -4,6 +4,7 @@ import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import seedTuples from "../data/seedDataTuples";
 import seedTuples2 from "../data/seedDataTuples2";
+window.Highcharts = Highcharts;
 
 const HistoricalGraph = (props) => {
   // const [timestamps, setTimestamps] = useState();
@@ -16,7 +17,8 @@ const HistoricalGraph = (props) => {
   const mapXValues = (rawData) => {
     let arr = [];
     for (let i = 0; i < rawData.length; i++) {
-      arr.push(rawData[i]["timestamp"]);
+      var tempTimestamp = rawData[i]["timestamp"] * 1000; //Multiply by 1000 since HighCharts uses milliseconds
+      arr.push(rawData[i]["timestamp"] * 1000);
     }
 
     console.log("Map X Values Ran for timestamps..", arr);
@@ -105,11 +107,74 @@ const HistoricalGraph = (props) => {
   // );
   // const [yCompound, setYcompound] = useState();
 
+  const chartOptions2 = {
+    title: {
+      text: "Historic DeFi Interest Rates"
+    },
+    xAxis: {
+      title: {
+        text: "Date"
+      },
+      type: "datetime",
+      dateTimeLabelFormats: {
+        // don't display the dummy year
+        // month: "%e. %b",
+        // year: "%b"
+        // millisecond: "%H:%M:%S.%L",
+        // second: "%H:%M:%S",
+        // minute: "%H:%M",
+        // hour: "%H:%M",
+        // day: "%e. %b",
+        // week: "%e. %b",
+        month: "%b '%y",
+        year: "%Y"
+      }
+      // labels: {
+      //   formatter: function() {
+      //     return Highcharts.dateFormat("%H:%M %d %b %y", this.value);
+      //   }
+      // }
+    },
+    yAxis: {
+      title: {
+        text: "Exchange rate"
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series: [
+      {
+        name: "Compound Finance",
+        // data: seedTuples
+        // data: [1, 2, 3, 4, 5, 6, 7]
+        data: tuples["compound"]
+      },
+      {
+        name: "Maker",
+        // data: [4, 2, 2, 1, 3, 6, 9]
+        // data: seedTuples2
+        data: tuples["maker"]
+      },
+      {
+        name: "Aave",
+        data: tuples["aave"]
+      },
+      {
+        name: "dydx",
+        data: tuples["dydx"]
+      }
+    ]
+  };
+
   const chartOptions = {
     title: {
       text: "Historic DeFi Interest Rates"
     },
     xAxis: {
+      title: {
+        text: "Date"
+      },
       type: "datetime",
       dateTimeLabelFormats: {
         // don't display the dummy year
@@ -156,6 +221,7 @@ const HistoricalGraph = (props) => {
       }
     ]
   };
+
   // const [chartOptions, setChartOptions] = useState({
   //   series: [
   //     {
@@ -186,7 +252,7 @@ const HistoricalGraph = (props) => {
     <div>
       <HighchartsReact highcharts={Highcharts} options={chartOptions} />
       {/* <p>Historical Graph {props.data}</p> */}
-      <p>One Timestamps: {oneTimestamp}</p>
+      <p>Dates: {oneTimestamp}</p>
       <p>One X Value: {JSON.stringify(xValues[0])}</p>
       <p>One Y Value: {JSON.stringify(yValues[0])}</p>
       {/* <p>One Y Value: {JSON.stringify(yValues[0]["maker"])}</p> */}
