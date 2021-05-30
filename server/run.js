@@ -71,10 +71,14 @@ async function loadContract(abi, address) {
   return loadedContract;
 }
 
-async function callContractMethod(contract, methodName) {
+async function callContractMethod(contract, methodName, block) {
   // const ourData = await contract.methods.getNumber().call();
-
-  const methodStr = `contract.methods.${methodName}().call()`;
+  if (block !== undefined) {
+    var methodStr = `contract.methods.${methodName}().call(null, ${block})`;
+    console.log(`Executing method ${methodName} on block ${block}..`);
+  } else {
+    var methodStr = `contract.methods.${methodName}().call()`;
+  }
   const ourData = await eval(methodStr);
   return ourData;
 }
@@ -101,7 +105,6 @@ async function getStorageVal() {
   // console.log("contract: ", contract.methods);
 
   const outputData = await callContractMethod(contract, "getNumber");
-  console.log("Storage Ethereum contract method output: ", outputData);
 }
 
 async function getCompoundAPY() {
@@ -190,12 +193,56 @@ async function getRatesArray() {
 
 async function getLast128Blocks() {
   // var blockNumber = 10338987;
-  var blockNumber = await web3.eth.getBlockNumber();
-  console.log(`\n Latest Block Height:  ${blockNumber}`);
+  var newestBlockNumber = await web3.eth.getBlockNumber();
+  var oldestBlockNumber = newestBlockNumber - 127;
+  var historicalBlockData = [];
+  var thisBlock = await web3.eth.getBlock(newestBlockNumber);
+  var timestamp = thisBlock.timestamp;
 
-  const cToken = await loadContract(abi_cDAI, contractAddresses.cdai_ropsten);
-  const borrowRatePerBlock = await cToken.methods.borrowRatePerBlock().call();
-  console.log(`\n Last 128 Blocks:  ${borrowRatePerBlock} %`);
+  console.log(
+    `\n Latest Block Height:  ${newestBlockNumber}, unix timestamp: ${timestamp}`
+  );
+
+  const contract = await loadContract(abi_cDAI, contractAddresses.cdai_ropsten);
+
+  for (let i = oldestBlockNumber; i <= newestBlockNumber; i++) {
+    var thisBlock = await web3.eth.getBlock(i);
+    var timestamp = thisBlock.timestamp;
+    var tempData = await callContractMethod(contract, "borrowRatePerBlock", i);
+    var tuple = [timestamp, tempData];
+    historicalBlockData.push(tuple);
+  } //// Async Method works
+
+  /// My Contract
+  const myContract = await loadContract(
+    mycontract_abi,
+    contractAddresses.mycontract
+  );
+
+  var myContractHistoricalBlockData = [];
+  for (let i = oldestBlockNumber; i <= newestBlockNumber; i++) {
+    var thisBlock = await web3.eth.getBlock(i);
+    var timestamp = thisBlock.timestamp;
+    var tempData = await callContractMethod(myContract, "getCompound", i);
+    var tuple = [timestamp, tempData];
+    myContractHistoricalBlockData.push(tuple);
+  } //// Async Method works
+
+  // var count = 0;
+  // for (let i = oldestBlockNumber; i <= newestBlockNumber; i++) {
+  //   var thisBlock = await web3.eth.getBlock(i);
+  //   var timestamp = thisBlock.timestamp;
+  //   var tempData = await callContractMethod(contract, "borrowRatePerBlock", i);
+  //   var tuple = [timestamp, tempData];
+  //   historicalBlockData[count] = tuple;
+  //   count++;
+  // } //// Sync Method
+
+  setTimeout(() => {
+    console.log(
+      `\n Historical Block Data Array: ${myContractHistoricalBlockData}`
+    );
+  }, 5000);
 }
 
 module.exports.default = run();
