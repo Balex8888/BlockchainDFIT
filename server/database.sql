@@ -1,5 +1,17 @@
 CREATE DATABASE dfitdb;
 
+CREATE TABLE allblocks(
+  unixtime INTEGER,
+  compound FLOAT,
+  dsr FLOAT,
+  block INTEGER PRIMARY KEY
+);
+
+-- SELECT unixtime, compound, dsr, block FROM allblocks ORDER BY block DESC;
+-- SELECT unixtime, compound, dsr, block FROM allblocks ORDER BY unixtime DESC;
+-- DROP TABLE allblocks;
+
+
 
 CREATE TABLE historical(
   unixtime TIMESTAMP PRIMARY KEY,
@@ -8,6 +20,7 @@ CREATE TABLE historical(
   dydxvalue FLOAT,
   aavevalue FLOAT
 );
+
 
 CREATE TABLE example(
   unixtime TIMESTAMP PRIMARY KEY,
@@ -29,3 +42,10 @@ CREATE TABLE one (
 --   description VARCHAR(255)
 
 -- );
+
+
+
+
+
+TRUNCATE allblocks;
+DELETE FROM allblocks;

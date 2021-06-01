@@ -32,6 +32,21 @@ async function callContractMethod(contract, methodName, block) {
   return ourData;
 }
 
+async function getLatestBlockNumber() {
+  const contract = await loadContract(
+    mycontract_abi,
+    contractAddresses.mycontract
+  );
+
+  var latestBlockNumber = await web3.eth.getBlockNumber();  
+  console.log("Latest Block Number is ###: ", latestBlockNumber);
+  return latestBlockNumber;
+}
+
+
+
+
+
 
 async function getCompoundAPY() {
   // const ethMantissa = 1e18;
@@ -85,17 +100,19 @@ async function getRatesArray(optionalBlockNumber) {
     var tempData = await callContractMethod(contract, "getRates", optionalBlockNumber);
     var thisBlock = await web3.eth.getBlock(optionalBlockNumber);
     var timestamp = thisBlock.timestamp;
+    var blockNumber = optionalBlockNumber;
     console.log(`\n getRatesArray OPTIONAL Block:  ${optionalBlockNumber}, unix timestamp: ${timestamp}`);
   } else {
     var tempData = await callContractMethod(contract, "getRates", newestBlockNumber);
     var thisBlock = await web3.eth.getBlock(newestBlockNumber);
     var timestamp = thisBlock.timestamp;
+    var blockNumber = newestBlockNumber;
     console.log(`\n getRatesArray NEWEST Block:  ${newestBlockNumber}, unix timestamp: ${timestamp}`);
 
   }
     var compoundApy = (Math.pow((tempData[0] / 1e18) * 6570 + 1, 365) - 1) * 100; // Converting per block to APY
     var dsrAPY = (tempData[1] / 10 ** 27) ** (60 * 60 * 24 * 365);
-    var tripletArray = [compoundApy, dsrAPY, timestamp]; // Compound - DSR - Timestamp
+    var tripletArray = [compoundApy, dsrAPY, timestamp, blockNumber]; // Compound - DSR - Timestamp - Blocknumber
     console.log('AB getRates - tripletArray: ', tripletArray)
     return tripletArray;
 
@@ -103,6 +120,9 @@ async function getRatesArray(optionalBlockNumber) {
 
 
 async function getLast128Blocks(howManyBlocks) {
+  if (howManyBlocks >= 127) {
+    console.log("Reducing howManyBlocks count to 127..")
+    howManyBlocks = 127}
   var blockAmount = howManyBlocks || 127
   // var blockNumber = 10338987;
   var newestBlockNumber = await web3.eth.getBlockNumber();
@@ -148,11 +168,7 @@ async function getLast128Blocks(howManyBlocks) {
   // } //// Async Method works
 
 
-
-
-
-
-  var getRatesHistoricalData = [];
+  var recentBlocksData = [];
   for (let i = oldestBlockNumber; i <= newestBlockNumber; i++) {
     var thisBlock = await web3.eth.getBlock(i);
     var timestamp = thisBlock.timestamp;
@@ -160,18 +176,46 @@ async function getLast128Blocks(howManyBlocks) {
     // console.log('TEMP DATA: ', tempData)
     var compoundApy = (Math.pow((tempData[0] / 1e18) * 6570 + 1, 365) - 1) * 100; // Converting per block to APY
     var dsrAPY = (tempData[1] / 10 ** 27) ** (60 * 60 * 24 * 365);
-    var tripletArray = [compoundApy, dsrAPY, timestamp]; // Compound - DSR - Timestamp
-    console.log('MyContract getRates - tripletArray: ', tripletArray)
-    getRatesHistoricalData.push(tripletArray);
-  }
+    var tripletArray
+    tripletArray = [compoundApy, dsrAPY, timestamp, i]; // Compound - DSR - Timestamp - Block
+    console.log('MyContract syncronous getRates - tripletArray: ', tripletArray)
+    recentBlocksData.push(tripletArray);
+  } ///// Sync
 
-  setTimeout(() => {
-    console.log(
-      // `\n ------ Historical Block Data Array: ${dsrHistoricalBlockData}`,
-      // `\n ------ Historical Block Data Array: ${compoundHistoricalBlockData}`
-      `\n ------ Historical Block Data Array: ${getRatesHistoricalData}`
-    );
-  }, 1000);
+  
+  /// Outer Promise.all attempt
+    // Promise.allSettled(recentBlocksData).then(triplets => {
+    //   triplets.forEach(item => {
+    //         console.log('item: ', item)
+    //         // Promise.allSettled(item).then(values => {
+    //         //   console.log(`Triplets individual: ${values}`)
+    //         // }).catch(error => console.log('Promises.all inner failed', error))
+    //   })
+    // }).catch(error => console.log('Promises.all outer failed', error))
+    
+  //// Inner Promise.all attempt
+  //   recentBlocksData.forEach(triplet => {
+  //     Promise.allSettled(triplet).then(values => {
+  //       // console.log(`Triplets individual: ${values}`)
+  //       // console.log(`Triplets individual status: ${values[0]['status']}`)
+  //       // console.log(`Triplets individual value: ${values[0]['value']}`)
+  //       // //   console.log(`Triplets: ${triplets}`)
+  //       //   console.log('typeof value: ', typeof values[0])
+  //   }).catch(error => console.log('Promises.all inner failed', error))
+
+  // })
+
+  
+  // setTimeout(() => {
+    //   console.log(
+      //     // `\n ------ Historical Block Data Array: ${dsrHistoricalBlockData}`,
+      //     // `\n ------ Historical Block Data Array: ${compoundHistoricalBlockData}`
+      //     `\n ------ Historical Block Data Array: ${recentBlocksData}`
+      //   );
+      // }, 1000);
+      
+      console.log('recentBlocksData: ', recentBlocksData)
+   return recentBlocksData;
 }
 
 
@@ -184,8 +228,8 @@ const run = async () => {
   getDsrAPY();
   getRatesArray();
 
-  getLast128Blocks(3);
+  getLast128Blocks(6);
 };
 
 // module.exports.default = run();
-module.exports = {run, getCompoundAPY, getDsrAPY, getRatesArray,  getLast128Blocks};
+module.exports = {run, getLatestBlockNumber, getCompoundAPY, getDsrAPY, getRatesArray,  getLast128Blocks};
