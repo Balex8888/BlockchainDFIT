@@ -1,9 +1,26 @@
 CREATE DATABASE dfitdb;
 
-CREATE TABLE allblocks(
-  unixtime INTEGER,
+CREATE TABLE historical(
+  unixtime TIMESTAMP PRIMARY KEY,
   compound FLOAT,
   dsr FLOAT,
+  dydx FLOAT,
+  aave FLOAT
+);
+
+
+-- CREATE TABLE allblocks(
+--   compound FLOAT,
+--   dsr FLOAT,
+--   unixtime INTEGER,
+--   block INTEGER PRIMARY KEY
+-- );
+
+-- BIGINT on unix time when using *1000 or passes max int size
+CREATE TABLE allblocks(
+  compound FLOAT,
+  dsr FLOAT,
+  unixtime BIGINT,
   block INTEGER PRIMARY KEY
 );
 
@@ -11,41 +28,7 @@ CREATE TABLE allblocks(
 -- SELECT unixtime, compound, dsr, block FROM allblocks ORDER BY unixtime DESC;
 -- DROP TABLE allblocks;
 
+-- TRUNCATE allblocks;
+-- DELETE FROM allblocks;
 
 
-CREATE TABLE historical(
-  unixtime TIMESTAMP PRIMARY KEY,
-  compoundvalue FLOAT,
-  dsrvalue FLOAT,
-  dydxvalue FLOAT,
-  aavevalue FLOAT
-);
-
-
-CREATE TABLE example(
-  unixtime TIMESTAMP PRIMARY KEY,
-  compoundvalue FLOAT,
-  dsrvalue FLOAT,
-  dydxvalue FLOAT,
-  aavevalue FLOAT
-);
-
-CREATE TABLE one (
-  unixtime TIMESTAMP PRIMARY KEY,
-  compoundvalue FLOAT
-);
-
-
--- Example
--- CREATE TABLE blocks(
---   blocks_id SERIAL PRIMARY KEY,
---   description VARCHAR(255)
-
--- );
-
-
-
-
-
-TRUNCATE allblocks;
-DELETE FROM allblocks;
