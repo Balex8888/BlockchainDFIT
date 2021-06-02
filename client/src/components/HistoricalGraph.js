@@ -315,7 +315,7 @@ const HistoricalGraph = (props) => {
         // data: CompoundTuples,
         // lineWidth: 1,
         marker: {
-          enabled: false
+          enabled: true
         },
         boostThreshold: 1 // Boost when there are more than 1
       },
@@ -327,7 +327,7 @@ const HistoricalGraph = (props) => {
         // data: DsrTuples,
         // lineWidth: 1,
         marker: {
-          enabled: false
+          enabled: true
         },
         boostThreshold: 1 // Boost when there are more than 1
       },

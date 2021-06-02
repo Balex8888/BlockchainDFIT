@@ -100,8 +100,8 @@ router.get("/getrecenttuplesdsr", async (req, res) => {
 
 // Update 128 historical blocks
 router.get("/updaterecentblocks", async (req, res) => {
-  // var recentBlocks = await blockchain.getLast128Blocks(128);
-  var recentBlocks = await blockchain.getLast128Blocks(12);
+  var recentBlocks = await blockchain.getLast128Blocks(128);
+  // var recentBlocks = await blockchain.getLast128Blocks(12);
   var count = 0;
   await updateDb();
 

@@ -200,7 +200,7 @@ const run = async () => {
   getDsrAPY();
   getRatesArray();
 
-  getLast128Blocks(128);
+  getLast128Blocks(5);
 };
 
 // module.exports.default = run();

@@ -38,7 +38,8 @@ const LendingHistory = (props) => {
     if (!isSeedDataLoaded) {
       console.log("Need to load seed data..");
       const params = {
-        "api-key": config.pulseApiKey,
+        // "api-key": config.pulseApiKey, // Hidden Key in config.. can use limited free dummy one below
+        "api-key": "5ca85a649370447728830a5bffb98ca05d7468b0fb23e82d12e2a3a54a0d",
         // "period": "all",
         // "period": "1y",
         // "period": "3m",
@@ -47,37 +48,29 @@ const LendingHistory = (props) => {
       };
       // axios.get(apiUrl)
 
-      /////// Uncomment to use real data, API Key 87% used for the month
-      // axios
-      //   .get(apiUrlManualParams, {
-      //     "params": params
-      //   })
-      //   .then((res) => {
-      //     console.log("API Get done");
-      //     const resData = res.data;
-      //     const firstElement = res.data[0];
-
-      //     console.log("res.data OUTPUT: ", resData);
-      //     console.log("FIRST ELEMENT: ", firstElement);
-      //     // setData("Get Request Done");
-      //     setData(resData);
-      //     setIsSeedDataLoaded(true);
-      //   })
-      //   .catch((error) => {
-      //     return error;
-      //   });
-      /////// Uncomment to use real data
-
-      // setData(seedDataAll);
+      ///// Uncomment to use real data, API Key 87% used for the month
       axios
-        .get("http://localhost:5000/dev")
+        .get(apiUrlManualParams, {
+          "params": params
+        })
         .then((res) => {
+          console.log("API Get done");
           const resData = res.data;
+          const firstElement = res.data[0];
+
+          console.log("res.data OUTPUT: ", resData);
+          console.log("FIRST ELEMENT: ", firstElement);
+          // setData("Get Request Done");
+          setData(resData);
+          setIsSeedDataLoaded(true);
         })
         .catch((error) => {
           return error;
         });
-      setData(seedData);
+      ///// Uncomment to use real data
+
+      // setData(seedData);
+      // setData(seedDataAll);
       setIsSeedDataLoaded(true);
     } else {
       console.log("Seed Data done loading..");
@@ -127,7 +120,6 @@ const LendingHistory = (props) => {
         });
     }
     // }, [isSeedDataLoaded, isBlockchainLoaded]); // Only Run use effect when Seed / Blockchain data isnt loaded
-    // }, [isSeedDataLoaded, blockchainData]);
     // }, [data]);
   }, []);
   // });
@@ -167,6 +159,8 @@ const LendingHistory = (props) => {
       {/* <h2>Dai DSR: {currentBlockData[1]}% </h2>
       <h2>Compound: {currentBlockData[0]}% </h2> */}
       {/* <p1>current block: {currentBlockData[3]} </p1> */}
+      <p1>current block: {currentBlockData[3]} </p1>
+      <p1>at time: {JSON.stringify(new Date(currentBlockData[2]))}</p1>
 
       {/* <p1>{currentBlockData[1].toFixed(2)}%</p1> */}
       {/* <p1>{currentBlockData[0].toFixed(2)}%</p1> */}
