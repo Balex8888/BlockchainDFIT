@@ -20,7 +20,7 @@ app.use("/", indexRouter);
 seedLast128Blocks();
 setInterval(update, 5000);
 
-const port = 9001;
+const port = 3001;
 app.listen(port, () => {
   console.log(`DFIT Server has started on port ${port}`);
 });

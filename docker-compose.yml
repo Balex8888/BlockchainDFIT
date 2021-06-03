@@ -1,0 +1,23 @@
+version: "3"
+services:
+  client:
+    container_name: dfit_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: balex8888/dfit_client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/src/app
+  server:
+    container_name: dfit_server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: balex8888/dfit_server
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/usr/src/app
+# https://dev.to/numtostr/running-react-and-node-js-in-one-shot-with-docker-3o09

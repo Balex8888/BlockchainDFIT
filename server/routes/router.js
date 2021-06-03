@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const blockchain = require("../getBlockchainData.js");
 const pool = require("../db");
+const path = require("path");
 
 // seedLast128Blocks();
 // async function seedLast128Blocks() {
@@ -31,8 +32,14 @@ const pool = require("../db");
 
 // define the home page route
 router.get("/", (req, res) => {
+  console.log("in / path.. ___dirname: ", __dirname);
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
   res.json("Historical Interest Rates Homepage");
 });
+// router.get("/", function(req, res) {
+//   res.sendFile(path.join(__dirname, "client/build", "index.html"));
+// });
+// router.use(express.static(path.join(__dirname, "../client/build")));
 
 router.get("/getlatestblocknumber", async (req, res) => {
   var blockNumber = await blockchain.getLatestBlockNumber();
