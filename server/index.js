@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const router = express.Router();
+const path = require("path");
 const cors = require("cors");
 const pool = require("./db");
 const axios = require("axios");
@@ -10,6 +11,7 @@ const { update, seedLast128Blocks } = require("./routes/update");
 // MIDDLEWARE
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 // ROUTES
 app.use("/", indexRouter);
@@ -18,6 +20,7 @@ app.use("/", indexRouter);
 seedLast128Blocks();
 setInterval(update, 5000);
 
-app.listen(5000, () => {
-  console.log("DFIT Server has started on port 5000");
+const port = 9001;
+app.listen(port, () => {
+  console.log(`DFIT Server has started on port ${port}`);
 });
