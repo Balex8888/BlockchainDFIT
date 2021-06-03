@@ -3,6 +3,32 @@ const router = express.Router();
 const blockchain = require("../getBlockchainData.js");
 const pool = require("../db");
 
+// seedLast128Blocks();
+// async function seedLast128Blocks() {
+//   console.log("Recent Blocks seeded");
+// }
+// async function update() {
+//   console.log("Set Interval Ran Update");
+//   var item = await blockchain.getRatesArray();
+//   item[2] = item[2] * 1000; // accounting for milliseconds
+//   // item[2] = item[2]; // accounting for milliseconds
+//   // console.log('/update item: ', item);
+
+//   var queryString = `INSERT INTO allblocks(compound, dsr, unixtime, block) VALUES(${item[0]}, ${item[1]}, ${item[2]}, ${item[3]})`;
+//   await pool.query(queryString, (err, res) => {
+//     if (err) {
+//       console.log("DB INSERT ERROR ~ Block is already in database:", err.message);
+//     } else {
+//       console.log(`### SUCCESS: Added block ${JSON.stringify(item)} into the pool`);
+//     }
+//   });
+// }
+// setInterval(
+//   update,
+
+//   10000
+// );
+
 // define the home page route
 router.get("/", (req, res) => {
   res.json("Historical Interest Rates Homepage");
@@ -27,7 +53,7 @@ router.get("/getallblocks", async (req, res) => {
   }
 });
 
-// Route to get only select recent blocks
+// Route to get only select most recent 128 blocks
 router.get("/getrecentblocks", async (req, res) => {
   try {
     console.log(`\n--- /getrecentblocks hit`);
@@ -128,22 +154,43 @@ router.get("/updaterecentblocks", async (req, res) => {
 });
 
 // Route to update most recent block
-router.get("/update", async (req, res) => {
+router.get("/getcurrentblockfromblockchain", async (req, res) => {
   var item = await blockchain.getRatesArray();
   item[2] = item[2] * 1000; // accounting for milliseconds
   // item[2] = item[2]; // accounting for milliseconds
-  // console.log('/update item: ', item);
+  console.log("/getcurrentblockfromblockchain item: ", item);
 
-  var queryString = `INSERT INTO allblocks(compound, dsr, unixtime, block) VALUES(${item[0]}, ${item[1]}, ${item[2]}, ${item[3]})`;
-  await pool.query(queryString, (err, res) => {
-    if (err) {
-      console.log("DB INSERT ERROR ~ Block is already in database:", err.message);
-    } else {
-      console.log(`Succesfully added block ${JSON.stringify(item)} into the pool`);
-    }
-  });
+  // Removing DB Write, moved functionality to setInterval update
+  // var queryString = `INSERT INTO allblocks(compound, dsr, unixtime, block) VALUES(${item[0]}, ${item[1]}, ${item[2]}, ${item[3]})`;
+  // await pool.query(queryString, (err, res) => {
+  //   if (err) {
+  //     console.log("DB INSERT ERROR ~ Block is already in database:", err.message);
+  //   } else {
+  //     console.log(`Succesfully added block ${JSON.stringify(item)} into the pool`);
+  //   }
+  // });
 
   res.json(item);
+});
+
+// Route to getcurrentblockfromdb most recent block
+router.get("/getcurrentblockfromdb", async (req, res) => {
+  // var item = await blockchain.getRatesArray();
+  // item[2] = item[2] * 1000; // accounting for milliseconds
+  // console.log("/getcurrentblockfromdb ", item);
+
+  const allBlocks = await pool.query("SELECT unixtime, compound, dsr, block FROM allblocks ORDER BY block DESC");
+  const data = allBlocks.rows;
+  // console.log(`All blocks --- : ${JSON.stringify(data)}`);
+  const currentBlockObj = allBlocks.rows[0];
+  // console.log(`Current blocks --- : ${JSON.stringify(currentBlockObj)}`);
+  const currentBlockArray = [currentBlockObj["compound"], currentBlockObj["dsr"], parseInt(currentBlockObj["unixtime"]), currentBlockObj["block"]];
+
+  // console.log(`/getcurrentblockfromdb - Updating Current Block  --- : ${JSON.stringify(currentBlockArray)}`);
+
+  /// currentBlockObj for recentBlocks --- : {"unixtime":"1622722666000","compound":14.615839612867854,"dsr":1.0599999976112906,"block":10364641}
+  // Desired Output Example:  [compound, dsr, unixtime, block]  [ 14.615839612867854, 1.0599999976112906, 1622722666000, 10364641 ]
+  res.json(currentBlockArray);
 });
 
 router.get("/dev", (req, res) => {

@@ -155,7 +155,7 @@ async function getLast128Blocks(howManyBlocks) {
     var tripletArray;
     tripletArray = [compoundApy, dsrAPY, timestamp, i]; // Compound - DSR - Timestamp - Block
     count++;
-    console.log(`${count} MyContract getLatestBlocks --- tripletArray: ${tripletArray}`);
+    // console.log(`${count} MyContract getLatestBlocks --- tripletArray: ${tripletArray}`);
     recentBlocksData.push(tripletArray);
   } ///// Sync
 

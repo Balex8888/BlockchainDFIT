@@ -79,7 +79,7 @@ const LendingHistory = (props) => {
     if (!isBlockchainLoaded) {
       // Getting First Block
       axios
-        .get("http://localhost:5000/update")
+        .get("http://localhost:5000/getcurrentblockfromblockchain")
         .then((res) => {
           var currentBlock = res.data;
           setCurrentBlockData(currentBlock);
@@ -88,15 +88,15 @@ const LendingHistory = (props) => {
           return error;
         });
 
-      // Update Recent Blocks
-      axios
-        .get("http://localhost:5000/updaterecentblocks")
-        .then((res) => {
-          let resData = res.data;
-        })
-        .catch((error) => {
-          return error;
-        });
+      // Update Recent Blocks // Moved live update functionality / seeding to backend instead!
+      // axios
+      //   .get("http://localhost:5000/updaterecentblocks")
+      //   .then((res) => {
+      //     let resData = res.data;
+      //   })
+      //   .catch((error) => {
+      //     return error;
+      //   });
       axios
         .get("http://localhost:5000/getrecenttuplescompound")
         .then((res) => {
@@ -129,8 +129,10 @@ const LendingHistory = (props) => {
   // [14.619947024405832, 1.0599999976112906, 1622540958, 10351693]
   useInterval(() => {
     console.log("In use interval.. Repeat in: 3000");
+
+    // Updated to no longer trigger db write, server automatically updates and
     axios
-      .get("http://localhost:5000/update")
+      .get("http://localhost:5000/getcurrentblockfromdb")
       .then((res) => {
         var currentBlock = res.data;
         // console.log("#### Compound Tuple State Before Update: ", CompoundBlockTuples);
@@ -146,7 +148,7 @@ const LendingHistory = (props) => {
       .catch((error) => {
         return error;
       });
-  }, 3000);
+  }, 5000);
 
   return (
     <div>
