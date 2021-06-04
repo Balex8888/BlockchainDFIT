@@ -20,4 +20,13 @@ services:
       - "3001:3001"
     volumes:
       - ./server:/usr/src/app
+
+  dfitdb:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dfitdb
 # https://dev.to/numtostr/running-react-and-node-js-in-one-shot-with-docker-3o09

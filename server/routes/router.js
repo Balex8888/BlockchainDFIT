@@ -32,8 +32,7 @@ const path = require("path");
 
 // define the home page route
 router.get("/", (req, res) => {
-  console.log("in / path.. ___dirname: ", __dirname);
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  console.log("-----in / path.. ___dirname: ", __dirname);
   res.json("Historical Interest Rates Homepage");
 });
 // router.get("/", function(req, res) {

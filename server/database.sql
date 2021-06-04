@@ -31,4 +31,8 @@ CREATE TABLE allblocks(
 -- TRUNCATE allblocks;
 -- DELETE FROM allblocks;
 
+-- psql -U postgres
+-- password
+-- \c dfitdb
+-- \dt
 

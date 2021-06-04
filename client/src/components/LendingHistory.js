@@ -6,6 +6,7 @@ import seedData from "../data/seedData1Week";
 import seedDataAll from "../data/seedDataAllWeeks";
 import config from "./config";
 import HistoricalGraph from "./HistoricalGraph";
+const localhostUrl = `http://localhost:3001`;
 
 const LendingHistory = (props) => {
   const [data, setData] = useState("Loading Data...");
@@ -79,7 +80,7 @@ const LendingHistory = (props) => {
     if (!isBlockchainLoaded) {
       // Getting First Block
       axios
-        .get("http://localhost:5000/getcurrentblockfromblockchain")
+        .get(`${localhostUrl}/getcurrentblockfromblockchain`)
         .then((res) => {
           var currentBlock = res.data;
           setCurrentBlockData(currentBlock);
@@ -90,7 +91,7 @@ const LendingHistory = (props) => {
 
       // Update Recent Blocks // Moved live update functionality / seeding to backend instead!
       // axios
-      //   .get("http://localhost:5000/updaterecentblocks")
+      //   .get(`${localhostUrl}/updaterecentblocks`)
       //   .then((res) => {
       //     let resData = res.data;
       //   })
@@ -98,7 +99,7 @@ const LendingHistory = (props) => {
       //     return error;
       //   });
       axios
-        .get("http://localhost:5000/getrecenttuplescompound")
+        .get(`${localhostUrl}/getrecenttuplescompound`)
         .then((res) => {
           let data = res.data;
           console.log(`Frontend JSON for /getrecenttuplescompound --- : ${JSON.stringify(data)}`);
@@ -108,7 +109,7 @@ const LendingHistory = (props) => {
           return error;
         });
       axios
-        .get("http://localhost:5000/getrecenttuplesdsr")
+        .get(`${localhostUrl}/getrecenttuplesdsr`)
         .then((res) => {
           let data = res.data;
           console.log(`Frontend JSON for /getrecenttuplesdsr --- : ${JSON.stringify(data)}`);
@@ -132,7 +133,7 @@ const LendingHistory = (props) => {
 
     // Updated to no longer trigger db write, server automatically updates and
     axios
-      .get("http://localhost:5000/getcurrentblockfromdb")
+      .get(`${localhostUrl}/getcurrentblockfromdb`)
       .then((res) => {
         var currentBlock = res.data;
         // console.log("#### Compound Tuple State Before Update: ", CompoundBlockTuples);
