@@ -17,18 +17,17 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 // ROUTES
 app.use("/", indexRouter);
 
-console.log(`----- in /mainserver path.. ___dirname: `, __dirname);
-console.log(`----- in /mainserver path.. path.join(__dirname, "../client/build")`, path.join(__dirname, "../client/build"));
+// console.log(`----- in /mainserver path.. ___dirname: `, __dirname);
+// console.log(`----- in /mainserver path.. path.join(__dirname, "../client/build")`, path.join(__dirname, "../client/build"));
 
 // Seeding Data + Automatic live block updates
 seedLast128Blocks();
 setInterval(update, 5000);
 
 const port = 3001;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`DFIT Server has started on port ${port} and 0.0.0.0`);
+app.listen(port, () => {
+  console.log(`DFIT Server has started on port ${port}`);
 });
-// app.listen(port, () => {
-//   console.log(`DFIT Server has started on port ${port}`);
-// });
-// app.listen(3001, "0.0.0.0");
+/* app.listen(port, "0.0.0.0", () => {
+        console.log(`DFIT Server has started on port ${port} and 0.0.0.0`);
+      }); */

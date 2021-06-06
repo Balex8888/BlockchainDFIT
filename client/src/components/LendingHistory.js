@@ -120,9 +120,9 @@ const LendingHistory = (props) => {
           return error;
         });
     }
-    // }, [isSeedDataLoaded, isBlockchainLoaded]); // Only Run use effect when Seed / Blockchain data isnt loaded
-    // }, [data]);
-  }, []);
+  }, [isSeedDataLoaded, isBlockchainLoaded]); // Only Run use effect when Seed / Blockchain data isnt loaded
+  // }, [data]);
+  // }, []);
   // });
 
   // Pulling in live block data from my smart contract
@@ -163,7 +163,7 @@ const LendingHistory = (props) => {
       <h2>Compound: {currentBlockData[0]}% </h2> */}
       {/* <p1>current block: {currentBlockData[3]} </p1> */}
       <p1>current block: {currentBlockData[3]} </p1>
-      <p1>at time: {JSON.stringify(new Date(currentBlockData[2]))}</p1>
+      {/* <p1>at time: {JSON.stringify(new Date(currentBlockData[2]))}</p1> */}
 
       {/* <p1>{currentBlockData[1].toFixed(2)}%</p1> */}
       {/* <p1>{currentBlockData[0].toFixed(2)}%</p1> */}

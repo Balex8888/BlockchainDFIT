@@ -233,8 +233,8 @@ const HistoricalGraph = (props) => {
   const chartOptions = {
     chart: {
       height: 500,
-      width: 1200,
-      type: "line"
+      width: 1200
+      // type: "line"
     },
     title: {
       text: "Live Blockchain Interest Rates"
@@ -330,35 +330,35 @@ const HistoricalGraph = (props) => {
           enabled: true
         },
         boostThreshold: 1 // Boost when there are more than 1
-      },
-      //////////////// Dummy Reference Line
-      {
-        name: "reference dummy line",
-        showInLegend: false,
-        color: "#FFFFFF",
-        // color: "#000000",
-        // data: [
-        //   [1622550502000, 10.619947024405832],
-        //   [1622550469000, 10.619947024405832],
-        //   [1622550407000, 10.619947024405832],
-        //   [1622557440000, 10.619947024405832]
-        // ],
-        data: [[1622644367000, 0.5], [(1622550502000, 0.5)], [1622550469000, 0.5], [1622550407000, 0.5]],
-
-        // data: [
-        //   [1622550502, 10],
-        //   [1622550469, 10],
-        //   [1622550407, 10],
-        //   [1622557440, 10]
-        // ],
-        // data: props.CompoundBlockTuples,
-        // data: CompoundTuples,
-        // lineWidth: 1,
-        marker: {
-          enabled: false
-        },
-        boostThreshold: 1 // Boost when there are more than 1
       }
+      //////////////// Dummy Reference Line
+      // {
+      //   name: "reference dummy line",
+      //   showInLegend: false,
+      //   color: "#FFFFFF",
+      //   // color: "#000000",
+      //   // data: [
+      //   //   [1622550502000, 10.619947024405832],
+      //   //   [1622550469000, 10.619947024405832],
+      //   //   [1622550407000, 10.619947024405832],
+      //   //   [1622557440000, 10.619947024405832]
+      //   // ],
+      //   data: [[1622644367000, 0.5], [(1622550502000, 0.5)], [1622550469000, 0.5], [1622550407000, 0.5]],
+
+      //   // data: [
+      //   //   [1622550502, 10],
+      //   //   [1622550469, 10],
+      //   //   [1622550407, 10],
+      //   //   [1622557440, 10]
+      //   // ],
+      //   // data: props.CompoundBlockTuples,
+      //   // data: CompoundTuples,
+      //   // lineWidth: 1,
+      //   marker: {
+      //     enabled: false
+      //   },
+      //   boostThreshold: 1 // Boost when there are more than 1
+      // }
       //////////////// Dummy Reference Line
     ]
   };

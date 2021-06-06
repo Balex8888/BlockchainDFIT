@@ -192,7 +192,7 @@ router.get("/getcurrentblockfromdb", async (req, res) => {
   // console.log(`Current blocks --- : ${JSON.stringify(currentBlockObj)}`);
   const currentBlockArray = [currentBlockObj["compound"], currentBlockObj["dsr"], parseInt(currentBlockObj["unixtime"]), currentBlockObj["block"]];
 
-  // console.log(`/getcurrentblockfromdb - Updating Current Block  --- : ${JSON.stringify(currentBlockArray)}`);
+  console.log(`/getcurrentblockfromdb - Updating Current Block  --- : ${JSON.stringify(currentBlockArray)}`);
 
   /// currentBlockObj for recentBlocks --- : {"unixtime":"1622722666000","compound":14.615839612867854,"dsr":1.0599999976112906,"block":10364641}
   // Desired Output Example:  [compound, dsr, unixtime, block]  [ 14.615839612867854, 1.0599999976112906, 1622722666000, 10364641 ]
