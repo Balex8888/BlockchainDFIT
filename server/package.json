@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "start http://localhost:3001 && node index.js",
+    "open": "start http://localhost:3001",
+    "dev": "nodemon index"
   },
   "author": "",
   "license": "ISC",
