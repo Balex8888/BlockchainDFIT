@@ -42,8 +42,7 @@ cd ../server
 npm install
 ```
 
-- While within the server directory start ther server
-- App will be running on localhost:3001
+- Start ther server (while in the /server directory). App will be running on localhost:3001
 
 ```
 // Quick Start
