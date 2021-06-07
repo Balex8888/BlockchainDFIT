@@ -1,14 +1,12 @@
-# DFIT
+# D.F.I.T. - DeFi Interest Tracker
 
-DeFi Interest Tracker
-
-# Welcome to the DeFi Interest Tracker, also known as D.F.I.T.
+Welcome to the DeFi Interest Tracker, also known as D.F.I.T.
 
 ![DFIT.png](https://github.com/Balex8888/BlockchainDFIT/blob/main/client/src/img/DFIT.png?raw=true)
 
 # Technical Synopsis
 
-- Uses Ethereum smart contract to query live data comparing interest rates across diferent DeFi Platforms
+- Uses Ethereum smart contract to query live blockchain data, comparing interest rates across different DeFi Platforms
 - Client built using React and DeFi Pulse's API for historical interest data
 - Backend built using NodeJS with a Postgres SQL database, along with live data from smart contracts on Ethereum / Ropsten testnet
 - Currently supports Compound Finance and DAI DSR, with future plans to add smart contract support for Aave and dYdX
@@ -44,13 +42,14 @@ cd ../server
 npm install
 ```
 
-- While within the server directory start the server, and open your browser to localhost:3001 begin using the app
+- While within the server directory start ther server
+- App will be running on localhost:3001
 
 ```
 // Quick Start
 npm start
 
-// Manual alternative, Start server using
+// Manual alternative, start the server
 npm run dev
 // Then open your browser to localhost:3001 to see the app
 http://localhost:3001/
