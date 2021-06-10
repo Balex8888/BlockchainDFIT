@@ -48,9 +48,9 @@ npm install
 // Quick Start
 npm start
 
-// Manual alternative, start the server
+// Manual alternative, Start the server using
 npm run dev
-// Then open your browser to localhost:3001 to see the app
+// Then open your browser to localhost:3001 to see the app running
 http://localhost:3001/
 ```
 

@@ -4,7 +4,7 @@ import axios from "axios";
 
 import seedData from "../data/seedData1Week";
 import seedDataAll from "../data/seedDataAllWeeks";
-import config from "./config";
+// import config from "./config";
 import HistoricalGraph from "./HistoricalGraph";
 const localhostUrl = `http://localhost:3001`;
 
